@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#07090b">
+  <title>MIRROR-07 // CONTROL NODE</title>
+  <link rel="icon" href="./assets/favicon.svg">
+  <link rel="stylesheet" href="./styles.css">
+  <link rel="stylesheet" href="./admin.css">
+</head>
+<body class="admin-body">
+  <div class="admin-desktop">
+    <div class="wallpaper admin-wallpaper"></div>
+    <div class="scanlines"></div>
+
+    <header class="topbar admin-topbar">
+      <div class="topbar__left">
+        <strong>NEKUTAI OS</strong>
+        <span class="topbar__divider"></span>
+        <span class="topbar__mode">CONTROL NODE</span>
+      </div>
+      <div class="topbar__right">
+        <span class="admin-top-status">NODE: INTERNAL</span>
+        <span class="topbar__divider"></span>
+        <span class="state-dot"><i></i><span id="syncLabel">SYNC: STANDBY</span></span>
+        <span class="topbar__divider"></span>
+        <span id="operatorTop">OPERATOR: LOCKED</span>
+        <span class="topbar__divider"></span>
+        <strong id="adminClock">--:--</strong>
+      </div>
+    </header>
+
+    <main id="login" class="admin-login-stage">
+      <section class="app-window admin-login-window">
+        <header class="window-titlebar">
+          <div class="window-titlebar__title"><i class="window-led"></i><strong>CONTROL NODE</strong><small>AUTHENTICATION GATEWAY</small></div>
+          <div class="window-controls"><button type="button" tabindex="-1">—</button><button type="button" tabindex="-1">□</button><button type="button" tabindex="-1">×</button></div>
+        </header>
+        <div class="window-content admin-login-content">
+          <div class="admin-login-brand">
+            <span class="app-head__eyebrow">NEKUTAI INTERNAL NETWORK</span>
+            <h1>CONTROL NODE</h1>
+            <p>OPERATOR ACCESS // AUTHORIZED PERSONNEL ONLY</p>
+          </div>
+          <form id="loginForm" class="admin-login-form">
+            <label>OPERATOR ID / E-MAIL</label>
+            <input name="email" type="email" autocomplete="username" placeholder="operator@node" required>
+            <label>ACCESS KEY</label>
+            <input name="password" type="password" autocomplete="current-password" placeholder="••••••••••••" required>
+            <button type="submit" class="admin-primary">AUTHENTICATE</button>
+            <small id="loginStatus">WAITING FOR CREDENTIALS</small>
+          </form>
+          <div class="admin-login-terminal">
+            <span>mirror://control/auth</span>
+            <span>FIREBASE RELAY / ENCRYPTED</span>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <section id="panel" class="admin-control" hidden>
+      <aside class="admin-sidebar">
+        <div class="admin-sidebar__head">
+          <span class="app-head__eyebrow">OPERATOR ENVIRONMENT</span>
+          <h1>CONTROL NODE</h1>
+          <p>Mesma realidade.<br>Outro ângulo.</p>
+        </div>
+
+        <nav class="admin-nav">
+          <button class="active" data-tab="transmissions">
+            <svg viewBox="0 0 24 24"><path d="M5 12a7 7 0 0 1 14 0M8 12a4 4 0 0 1 8 0M12 12h.01M3 8.5a11 11 0 0 0 0 7M21 8.5a11 11 0 0 1 0 7"/></svg>
+            <span>TRANSMISSIONS</span><b id="navPending">0</b>
+          </button>
+          <button data-tab="thoughts">
+            <svg viewBox="0 0 24 24"><path d="M7 3h7l4 4v14H7zM14 3v5h5M10 12h5M10 16h5"/></svg>
+            <span>THOUGHTS</span><b id="navThoughts">0</b>
+          </button>
+          <button data-tab="echo">
+            <svg viewBox="0 0 24 24"><path d="M4 9v6M8 6v12M12 3v18M16 7v10M20 10v4"/></svg>
+            <span>E.C.H.O.</span><b id="navEcho">0</b>
+          </button>
+          <button data-tab="system">
+            <svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20V7"/></svg>
+            <span>SYSTEM STATUS</span>
+          </button>
+        </nav>
+
+        <blockquote>“ALGUMAS VERDADES<br>NÃO DEVEM SER ENCONTRADAS.<br>APENAS OBSERVADAS.”<br><span>— N.</span></blockquote>
+
+        <div class="admin-sidebar__bottom">
+          <div><span>FIREBASE</span><b id="firebaseState">LINKING</b></div>
+          <div><span>CLEARANCE</span><b>ADMIN</b></div>
+          <button id="logout" class="admin-logout">↪ &nbsp; ENCERRAR SESSÃO</button>
+        </div>
+      </aside>
+
+      <main class="admin-workspace">
+        <header class="admin-workspace__bar">
+          <div><span>//</span> <strong id="workspaceRoute">TRANSMISSIONS</strong></div>
+          <p id="workspaceMotto">FILTRA O RUÍDO. PRESERVA O QUE IMPORTA.</p>
+        </header>
+        <div id="adminContent" class="admin-content"></div>
+      </main>
+    </section>
+
+    <footer class="statusbar admin-statusbar">
+      <span>/ &nbsp; OBSERVE &nbsp; / &nbsp; ANALYZE &nbsp; / &nbsp; PRESERVE &nbsp; / &nbsp; TRANSMIT</span>
+      <span id="bottomOperator">CONTROL NODE // LOCKED</span>
+      <span>NODE-07 / INTERNAL</span>
+    </footer>
+  </div>
+
+  <script src="./firebase-config.js"></script>
+  <script src="./admin.js"></script>
+</body>
+</html>

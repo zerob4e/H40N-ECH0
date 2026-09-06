@@ -1,0 +1,49 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() { return request.auth != null; }
+    function admin() {
+      return signedIn() && exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+    }
+
+    match /admins/{uid} {
+      allow read: if signedIn() && (request.auth.uid == uid || admin());
+      allow write: if false;
+    }
+
+    match /transmissions/{id} {
+      allow read: if resource.data.status == 'approved' || admin();
+      allow create: if signedIn()
+        && request.resource.data.keys().hasOnly([
+          'type','alias','body','observerId','authorUid','status','createdAt'
+        ])
+        && request.resource.data.authorUid == request.auth.uid
+        && request.resource.data.status == 'pending'
+        && request.resource.data.type in ['THEORY','MESSAGE','OBSERVATION']
+        && request.resource.data.alias is string
+        && request.resource.data.alias.size() >= 1
+        && request.resource.data.alias.size() <= 32
+        && request.resource.data.body is string
+        && request.resource.data.body.size() >= 1
+        && request.resource.data.body.size() <= 500
+        && request.resource.data.observerId is string
+        && request.resource.data.observerId.size() <= 20
+        && request.resource.data.createdAt == request.time;
+      allow update, delete: if admin();
+    }
+
+    match /thoughts/{id} {
+      allow read: if resource.data.published == true || admin();
+      allow create, update, delete: if admin();
+    }
+
+    match /echo_notifications/{id} {
+      allow read: if resource.data.active == true || admin();
+      allow create, update, delete: if admin();
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

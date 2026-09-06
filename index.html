@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#07090b" />
+  <meta name="description" content="MIRROR-07 — read-only observer node." />
+  <title>MIRROR-07 // OBSERVER NODE</title>
+  <link rel="icon" href="./assets/favicon.svg" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div id="boot" class="boot" aria-live="polite">
+    <div class="boot__mark">MIRROR<span>-07</span></div>
+    <div id="bootLog" class="boot__log"></div>
+    <div class="boot__foot">UNAUTHORIZED PUBLIC NODE · READ ONLY</div>
+  </div>
+
+  <main id="desktop" class="desktop is-hidden" aria-label="MIRROR-07 observer desktop">
+    <div class="wallpaper" aria-hidden="true"></div>
+    <div class="scanlines" aria-hidden="true"></div>
+
+    <header class="topbar">
+      <div class="topbar__left">
+        <button class="ghost-button" id="systemButton" aria-label="Informações do sistema">MIRROR-07</button>
+        <span class="topbar__divider"></span>
+        <span class="topbar__mode">OBSERVER NODE</span>
+      </div>
+      <div class="topbar__right">
+        <span id="networkState" class="state-dot"><i></i> RELAY ONLINE</span>
+        <time id="clock">--:--</time>
+      </div>
+    </header>
+
+    <section class="desktop-icons" aria-label="Aplicativos disponíveis">
+      <button class="desktop-icon" data-open="archive">
+        <span class="desktop-icon__glyph" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M4 7.5h16v12H4z"/><path d="M7 4.5h5l2 3H7z"/><path d="M8 12h8M8 15h5"/></svg>
+        </span>
+        <strong>NKT ARCHIVE</strong>
+        <small>READ-ONLY INTEL</small>
+      </button>
+
+      <button class="desktop-icon" data-open="thoughts">
+        <span class="desktop-icon__glyph" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M12 5a4 4 0 0 0-7 2.7A4 4 0 0 0 5.5 15 4 4 0 0 0 12 18Z"/><path d="M12 5a4 4 0 0 1 7 2.7A4 4 0 0 1 18.5 15 4 4 0 0 1 12 18Z"/><path d="M8 10h8M12 7v8"/></svg>
+        </span>
+        <strong>THOUGHTS</strong>
+        <small>COGNITIVE FRAGMENTS</small>
+      </button>
+
+      <button class="desktop-icon" data-open="signal">
+        <span class="desktop-icon__glyph" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M4 18h16"/><path d="M7 15a7 7 0 0 1 10 0"/><path d="M9.5 12.5a3.5 3.5 0 0 1 5 0"/><circle cx="12" cy="9" r="1"/></svg>
+        </span>
+        <strong>SIGNAL</strong>
+        <small>OBSERVER TRANSMISSIONS</small>
+      </button>
+    </section>
+
+    <aside class="system-card" aria-label="Status do nó">
+      <div class="system-card__head">
+        <span>NODE STATUS</span>
+        <i></i>
+      </div>
+      <dl>
+        <div><dt>SOURCE</dt><dd>NODE-07</dd></div>
+        <div><dt>ACCESS</dt><dd>READ ONLY</dd></div>
+        <div><dt>OBSERVER</dt><dd id="observerId">--------</dd></div>
+        <div><dt>E.C.H.O.</dt><dd id="echoState">UNKNOWN</dd></div>
+      </dl>
+    </aside>
+
+    <footer class="statusbar">
+      <span>mirror://node-07/public</span>
+      <span id="visitState">SESSION 01</span>
+      <span>BUILD M.07.01</span>
+    </footer>
+
+    <section id="windowLayer" class="window-layer" aria-live="polite"></section>
+    <section id="echoLayer" class="echo-layer" aria-live="assertive"></section>
+  </main>
+
+  <template id="windowTemplate">
+    <article class="app-window" role="dialog" aria-modal="false">
+      <header class="window-titlebar">
+        <div class="window-titlebar__title"><span class="window-led"></span><strong></strong><small></small></div>
+        <div class="window-controls">
+          <button data-window-action="minimize" aria-label="Minimizar">—</button>
+          <button data-window-action="maximize" aria-label="Maximizar">□</button>
+          <button data-window-action="close" aria-label="Fechar">×</button>
+        </div>
+      </header>
+      <div class="window-content"></div>
+    </article>
+  </template>
+
+  <script src="./firebase-config.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>
