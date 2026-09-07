@@ -228,8 +228,67 @@ function echoOnce(key,text,glitch=false){
   echo(text,glitch);
 }
 function echo(text,glitch=false){
-  if(!text)return; $("#echoState").textContent="OBSERVED";
-  const t=document.createElement("article");t.className=`echo-toast${glitch?" glitch":""}`;t.innerHTML=`<div class="echo-toast__head"><b>E.C.H.O. // UNAUTHORIZED CHANNEL</b><span>${observerId}</span></div><p>${esc(text)}</p>`;$("#echoLayer").append(t);setTimeout(()=>t.remove(),7600);setTimeout(()=>{$("#echoState").textContent="UNKNOWN"},8500);
+  if(!text)return;
+  const layer=$("#echoLayer");
+  $("#echoState").textContent="OBSERVED";
+
+  const t=document.createElement("article");
+  t.className=`echo-toast${glitch?" glitch":""}`;
+  t.innerHTML=`<div class="echo-toast__head"><b>E.C.H.O. // UNAUTHORIZED CHANNEL</b><div class="echo-toast__tools"><span>${observerId}</span><button class="echo-toast__close" type="button" aria-label="Fechar mensagem do E.C.H.O." title="Fechar">×</button></div></div><p>${esc(text)}</p>`;
+  layer.append(t);
+
+  const dismiss=()=>dismissEchoToast(t);
+  $(".echo-toast__close",t).addEventListener("click",e=>{e.stopPropagation();dismiss();});
+  bindEchoSwipe(t);
+  t._echoTimer=setTimeout(dismiss,7600);
+}
+function dismissEchoToast(t){
+  if(!t||t.dataset.dismissed==="true")return;
+  t.dataset.dismissed="true";
+  clearTimeout(t._echoTimer);
+  t.classList.remove("is-dragging");
+  t.classList.add("is-dismissing");
+  setTimeout(()=>{
+    t.remove();
+    if(!$("#echoLayer .echo-toast")) $("#echoState").textContent="UNKNOWN";
+  },190);
+}
+function bindEchoSwipe(t){
+  let pointerId=null,startY=0,dy=0;
+
+  t.addEventListener("pointerdown",e=>{
+    if(e.target.closest(".echo-toast__close")||t.dataset.dismissed==="true")return;
+    pointerId=e.pointerId;
+    startY=e.clientY;
+    dy=0;
+    t.classList.add("is-dragging");
+    try{t.setPointerCapture(pointerId)}catch{}
+  });
+
+  t.addEventListener("pointermove",e=>{
+    if(pointerId!==e.pointerId||t.dataset.dismissed==="true")return;
+    dy=Math.min(0,e.clientY-startY);
+    t.style.transform=`translateY(${dy}px)`;
+    t.style.opacity=String(Math.max(.2,1-Math.abs(dy)/125));
+  });
+
+  const finish=e=>{
+    if(pointerId!==e.pointerId)return;
+    try{t.releasePointerCapture(pointerId)}catch{}
+    pointerId=null;
+    t.classList.remove("is-dragging");
+    if(dy<=-44){
+      dismissEchoToast(t);
+      return;
+    }
+    t.classList.add("is-restoring");
+    t.style.transform="";
+    t.style.opacity="";
+    setTimeout(()=>t.classList.remove("is-restoring"),180);
+  };
+
+  t.addEventListener("pointerup",finish);
+  t.addEventListener("pointercancel",finish);
 }
 function timestampMs(v){
   if(!v)return 0; const d=v?.toDate?v.toDate():new Date(v); const n=d.getTime(); return Number.isNaN(n)?0:n;
